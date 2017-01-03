@@ -1,0 +1,2 @@
+# drinkingDice
+Dice drinking game
