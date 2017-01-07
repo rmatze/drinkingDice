@@ -18,6 +18,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -347,15 +348,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkOnesCount() {
 //        mTotalHitCount.setText("Total Hit Count: " + mTotalOnes);
-//        if (mTotalOnes == 7) {
-//            Toast.makeText(this, "You're picking the drink!", Toast.LENGTH_LONG).show();
-//        } else if (mTotalOnes == 14) {
-//            Toast.makeText(this, "You're paying for it!", Toast.LENGTH_LONG).show();
-//        } else if (mTotalOnes > 20) {
-//            Toast.makeText(this, "You're drinking it!", Toast.LENGTH_LONG).show();
+        if (mTotalOnes == 7) {
+            Toast.makeText(this, "You're picking the drink!", Toast.LENGTH_LONG).show();
+        } else if (mTotalOnes == 14) {
+            Toast.makeText(this, "You're paying for it!", Toast.LENGTH_LONG).show();
+        } else if (mTotalOnes > 20) {
+            Toast.makeText(this, "You're drinking it!", Toast.LENGTH_LONG).show();
 //            mStatus.setText("Game Over!\nTap to play again");
-//            mGameOver = true;
-//        }
+            mGameOver = true;
+        }
     }
 
     private AnimationSet getDiceAnimation() {
