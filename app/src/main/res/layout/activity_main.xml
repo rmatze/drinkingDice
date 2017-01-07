@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     tools:context="rmatze.com.dicegame.MainActivity">
@@ -13,9 +13,9 @@
         android:id="@+id/dice_1_imageview"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="8dp"
         android:background="#FFFFFF"
         android:src="@drawable/dice_1"
+        app:layout_constraintEnd_toStartOf="@+id/dice_2_imageview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -23,9 +23,9 @@
         android:id="@+id/dice_2_imageview"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="8dp"
         android:background="#FFFFFF"
         android:src="@drawable/dice_2"
+        app:layout_constraintEnd_toStartOf="@+id/dice_3_imageview"
         app:layout_constraintLeft_toRightOf="@+id/dice_1_imageview"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -33,9 +33,9 @@
         android:id="@+id/dice_3_imageview"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="8dp"
         android:background="#FFFFFF"
         android:src="@drawable/dice_3"
+        app:layout_constraintEnd_toStartOf="@+id/dice_4_imageview"
         app:layout_constraintLeft_toRightOf="@+id/dice_2_imageview"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -43,9 +43,9 @@
         android:id="@+id/dice_4_imageview"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="8dp"
         android:background="#FFFFFF"
         android:src="@drawable/dice_4"
+        app:layout_constraintEnd_toStartOf="@+id/dice_5_imageview"
         app:layout_constraintLeft_toRightOf="@+id/dice_3_imageview"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -53,9 +53,9 @@
         android:id="@+id/dice_5_imageview"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="8dp"
         android:background="#FFFFFF"
         android:src="@drawable/dice_5"
+        app:layout_constraintEnd_toStartOf="@+id/dice_6_imageview"
         app:layout_constraintLeft_toRightOf="@+id/dice_4_imageview"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -63,34 +63,34 @@
         android:id="@+id/dice_6_imageview"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="8dp"
         android:background="#FFFFFF"
         android:src="@drawable/dice_6"
+        app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/dice_5_imageview"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/total_hit_count_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total Hit Count: 0"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dice_1_imageview"/>
+    <!--<TextView-->
+    <!--android:id="@+id/total_hit_count_textview"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Total Hit Count: 0"-->
+    <!--android:textSize="24sp"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/dice_1_imageview"/>-->
 
-    <TextView
-        android:id="@+id/status_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tap To Roll"
-        android:textSize="24sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total_hit_count_textview"
-    android:gravity="center_horizontal"/>
+    <!--<TextView-->
+    <!--android:id="@+id/status_textview"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Tap To Roll"-->
+    <!--android:textSize="24sp"-->
+    <!--android:layout_marginStart="16dp"-->
+    <!--android:layout_marginEnd="16dp"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/total_hit_count_textview"-->
+    <!--android:gravity="center_horizontal"/>-->
 
 </android.support.constraint.ConstraintLayout>
