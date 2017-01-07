@@ -13,8 +13,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -112,8 +110,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                }
 
 
-
-
                 mDice1.startAnimation(getDiceAnimation());
                 mDice2.startAnimation(getDiceAnimation());
                 mDice3.startAnimation(getDiceAnimation());
@@ -150,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
 
-        if(imageView != null) {
+        if (imageView != null) {
             layoutParams =
                     (ConstraintLayout.LayoutParams) imageView.getLayoutParams();
 
@@ -363,14 +359,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AnimationSet animSlide1 = new AnimationSet(true);
         animSlide1.setFillAfter(true);
         // Start Rotation
-        RotateAnimation rotate1 = new RotateAnimation(0,360 + getRandomNumZeroToOneEighty(), Animation.RELATIVE_TO_SELF,0.5f , Animation.RELATIVE_TO_SELF,0.5f );
+        RotateAnimation rotate1 = new RotateAnimation(0, 360 + getRandomNumZeroToOneEighty(),
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate1.setStartOffset(50);
         rotate1.setDuration(550);
         animSlide1.addAnimation(rotate1);
         // End Rotation
         // Start Translate
-        TranslateAnimation trans1 = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0f, Animation.RELATIVE_TO_PARENT, 0.0f,
-                Animation.RELATIVE_TO_PARENT, -0.3f, Animation.RELATIVE_TO_PARENT, getRandomFloat());
+        TranslateAnimation trans1 = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, -0.3f, Animation.RELATIVE_TO_PARENT,
+                getRandomFloat());
         trans1.setDuration(500);
         animSlide1.addAnimation(trans1);
         // End Translate
