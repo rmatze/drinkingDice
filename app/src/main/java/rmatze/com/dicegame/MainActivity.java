@@ -24,7 +24,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
-        View.OnTouchListener,View.OnDragListener {
+        View.OnTouchListener, View.OnDragListener {
 
     String TAG = "RYAN";
 
@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int mEnterCount;
 
     int mScreenWidth, mScreenHeight, deltaX;
+
+    boolean mDiceOneInPlay, mDiceTwoInPlay, mDiceThreeInPlay, mDiceFourInPlay, mDiceFiveInPlay,
+            mDiceSixInPlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,57 +95,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         deltaX = 0;
 
-
-//        mDice1.setOnDragListener(new View.OnDragListener() {
-//            @Override
-//            public boolean onDrag(View v, DragEvent event) {
-//                String msg = "Ryan";
-//                RelativeLayout.LayoutParams layoutParams = null;
-//                switch(event.getAction()) {
-//                    case DragEvent.ACTION_DRAG_STARTED:
-//                        layoutParams = (RelativeLayout.LayoutParams)v.getLayoutParams();
-//                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_STARTED");
-//
-//                        // Do nothing
-//                        break;
-//
-//                    case DragEvent.ACTION_DRAG_ENTERED:
-//                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENTERED");
-//                        int x_cord = (int) event.getX();
-//                        int y_cord = (int) event.getY() + 50;
-//                        break;
-//
-//                    case DragEvent.ACTION_DRAG_EXITED :
-//                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_EXITED");
-//                        x_cord = (int) event.getX();
-//                        y_cord = (int) event.getY() + 50;
-//                        layoutParams.leftMargin = x_cord;
-//                        layoutParams.topMargin = y_cord;
-//                        v.setLayoutParams(layoutParams);
-//                        break;
-//
-//                    case DragEvent.ACTION_DRAG_LOCATION  :
-//                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_LOCATION");
-//                        x_cord = (int) event.getX() + 50;
-//                        y_cord = (int) event.getY() + 50;
-//                        break;
-//
-//                    case DragEvent.ACTION_DRAG_ENDED   :
-//                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENDED");
-//
-//                        // Do nothing
-//                        break;
-//
-//                    case DragEvent.ACTION_DROP:
-//                        Log.d(msg, "ACTION_DROP event");
-//
-//                        // Do nothing
-//                        break;
-//                    default: break;
-//                }
-//                return true;
-//            }
-//        });
+        mDiceOneInPlay = mDiceTwoInPlay =
+                mDiceThreeInPlay = mDiceFourInPlay = mDiceFiveInPlay = mDiceSixInPlay = true;
 
     }
 
@@ -187,12 +141,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                }
 
 
-//                mDice1.startAnimation(getDiceAnimation());
-//                mDice2.startAnimation(getDiceAnimation());
-//                mDice3.startAnimation(getDiceAnimation());
-//                mDice4.startAnimation(getDiceAnimation());
-//                mDice5.startAnimation(getDiceAnimation());
-//                mDice6.startAnimation(getDiceAnimation());
+//                if(mDiceOneInPlay) {
+//                    mDice1.startAnimation(getDiceAnimation());
+//                }
+//                if(mDiceTwoInPlay) {
+//                    mDice2.startAnimation(getDiceAnimation());
+//                }
+//                if(mDiceThreeInPlay) {
+//                    mDice3.startAnimation(getDiceAnimation());
+//                }
+//                if(mDiceFourInPlay) {
+//                    mDice4.startAnimation(getDiceAnimation());
+//                }
+//                if(mDiceFiveInPlay) {
+//                    mDice5.startAnimation(getDiceAnimation());
+//                }
+//                if(mDiceSixInPlay) {
+//                    mDice6.startAnimation(getDiceAnimation());
+//                }
 
                 break;
         }
@@ -205,15 +171,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.startDrag(null, shadowBuilder, view, 0);
             view.setVisibility(View.INVISIBLE);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
-
-
-
-
-
 
 
 //        LinearLayout.LayoutParams layoutParams;
@@ -276,7 +236,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                    imageView.setX(deltaX);
 //                    imageView.setTranslationX(deltaX);
 //
-//                    mLocation.setText("X: " + layoutParams.leftMargin + ", Y: " + layoutParams.topMargin + ", SW: " + mScreenWidth + ", SH: " + mScreenHeight);
+//                    mLocation.setText("X: " + layoutParams.leftMargin + ", Y: " + layoutParams
+// .topMargin + ", SW: " + mScreenWidth + ", SH: " + mScreenHeight);
 //
 //                    break;
 //                default:
@@ -288,18 +249,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void renderDice() {
-        renderDiceOne(new Random().nextInt((MAX - MIN) + 1) + MIN);
-        renderDiceTwo(new Random().nextInt((MAX - MIN) + 1) + MIN);
-        renderDiceThree(new Random().nextInt((MAX - MIN) + 1) + MIN);
-        renderDiceFour(new Random().nextInt((MAX - MIN) + 1) + MIN);
-        renderDiceFive(new Random().nextInt((MAX - MIN) + 1) + MIN);
-        renderDiceSix(new Random().nextInt((MAX - MIN) + 1) + MIN);
+        if (diceInPlayingField(1)) {
+            renderDiceOne(new Random().nextInt((MAX - MIN) + 1) + MIN);
+        }
+        if (diceInPlayingField(2)) {
+            renderDiceTwo(new Random().nextInt((MAX - MIN) + 1) + MIN);
+        }
+        if (diceInPlayingField(3)) {
+            renderDiceThree(new Random().nextInt((MAX - MIN) + 1) + MIN);
+        }
+        if (diceInPlayingField(4)) {
+            renderDiceFour(new Random().nextInt((MAX - MIN) + 1) + MIN);
+        }
+        if (diceInPlayingField(5)) {
+            renderDiceFive(new Random().nextInt((MAX - MIN) + 1) + MIN);
+        }
+        if (diceInPlayingField(6)) {
+            renderDiceSix(new Random().nextInt((MAX - MIN) + 1) + MIN);
+        }
+    }
+
+    private boolean diceInPlayingField(int diceNumber) {
+        switch (diceNumber) {
+            case 1:
+                if (mDiceOneInPlay) {
+                    return true;
+                }
+                break;
+            case 2:
+                if (mDiceTwoInPlay) {
+                    return true;
+                }
+                break;
+            case 3:
+                if (mDiceThreeInPlay) {
+                    return true;
+                }
+                break;
+            case 4:
+                if (mDiceFourInPlay) {
+                    return true;
+                }
+                break;
+            case 5:
+                if (mDiceFiveInPlay) {
+                    return true;
+                }
+                break;
+            case 6:
+                if (mDiceSixInPlay) {
+                    return true;
+                }
+                break;
+        }
+        return false;
     }
 
     private void renderDiceOne(int number) {
         switch (number) {
             case 1:
                 mTotalOnes++;
+                if(mTotalOnes > 21 - MAX) {
+                    ViewGroup owner = (ViewGroup) mDice1.getParent();
+                    owner.removeView(mDice1);
+                    LinearLayout container = (LinearLayout) mBottomfield;
+                    container.addView(mDice1);
+                    mDice1.setVisibility(View.VISIBLE);
+                    mDiceOneInPlay = false;
+                }
                 mHit = true;
                 checkOnesCount();
                 mDice1.setImageResource(R.drawable.dice_1);
@@ -326,6 +343,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (number) {
             case 1:
                 mTotalOnes++;
+                if(mTotalOnes > 21 - MAX) {
+                    ViewGroup owner = (ViewGroup) mDice2.getParent();
+                    owner.removeView(mDice2);
+                    LinearLayout container = (LinearLayout) mBottomfield;
+                    container.addView(mDice2);
+                    mDice2.setVisibility(View.VISIBLE);
+                    mDiceTwoInPlay = false;
+                }
                 mHit = true;
                 checkOnesCount();
                 mDice2.setImageResource(R.drawable.dice_1);
@@ -352,6 +377,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (number) {
             case 1:
                 mTotalOnes++;
+                if(mTotalOnes > 21 - MAX) {
+                    ViewGroup owner = (ViewGroup) mDice3.getParent();
+                    owner.removeView(mDice3);
+                    LinearLayout container = (LinearLayout) mBottomfield;
+                    container.addView(mDice3);
+                    mDice3.setVisibility(View.VISIBLE);
+                    mDiceThreeInPlay = false;
+                }
                 mHit = true;
                 checkOnesCount();
                 mDice3.setImageResource(R.drawable.dice_1);
@@ -378,6 +411,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (number) {
             case 1:
                 mTotalOnes++;
+                if(mTotalOnes > 21 - MAX) {
+                    ViewGroup owner = (ViewGroup) mDice4.getParent();
+                    owner.removeView(mDice4);
+                    LinearLayout container = (LinearLayout) mBottomfield;
+                    container.addView(mDice4);
+                    mDice4.setVisibility(View.VISIBLE);
+                    mDiceFourInPlay = false;
+                }
                 mHit = true;
                 checkOnesCount();
                 mDice4.setImageResource(R.drawable.dice_1);
@@ -404,6 +445,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (number) {
             case 1:
                 mTotalOnes++;
+                if(mTotalOnes > 21 - MAX) {
+                    ViewGroup owner = (ViewGroup) mDice5.getParent();
+                    owner.removeView(mDice5);
+                    LinearLayout container = (LinearLayout) mBottomfield;
+                    container.addView(mDice5);
+                    mDice5.setVisibility(View.VISIBLE);
+                    mDiceFiveInPlay = false;
+                }
                 mHit = true;
                 checkOnesCount();
                 mDice5.setImageResource(R.drawable.dice_1);
@@ -430,6 +479,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (number) {
             case 1:
                 mTotalOnes++;
+                if(mTotalOnes > 21 - MAX) {
+                    ViewGroup owner = (ViewGroup) mDice6.getParent();
+                    owner.removeView(mDice6);
+                    LinearLayout container = (LinearLayout) mBottomfield;
+                    container.addView(mDice6);
+                    mDice6.setVisibility(View.VISIBLE);
+                    mDiceSixInPlay = false;
+                }
                 mHit = true;
                 checkOnesCount();
                 mDice6.setImageResource(R.drawable.dice_1);
@@ -468,9 +525,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AnimationSet getDiceAnimation() {
         AnimationSet animSlide1 = new AnimationSet(true);
         animSlide1.setFillAfter(true);
+        animSlide1.setFillEnabled(true);
         // Start Rotation
         RotateAnimation rotate1 = new RotateAnimation(0, 360 + getRandomNumZeroToOneEighty(),
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate1.setFillAfter(true);
+        rotate1.setFillEnabled(true);
         rotate1.setStartOffset(50);
         rotate1.setDuration(550);
         animSlide1.addAnimation(rotate1);
@@ -480,9 +540,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, -0.3f, Animation.RELATIVE_TO_PARENT,
                 getRandomFloat());
+        trans1.setFillAfter(true);
+        trans1.setFillEnabled(true);
         trans1.setDuration(500);
         animSlide1.addAnimation(trans1);
         // End Translate
+
+        trans1.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+//                mDice1.clearAnimation();
+//                int[] locationOnScreent = new int[2];
+//                mDice1.getLocationOnScreen(locationOnScreent);
+//                // locationOnScreent[0] = x
+//                // locationOnScreent[1] = y
+//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(mDice1.getWidth(),
+//                        mDice1.getHeight());
+//                lp.setMargins(locationOnScreent[0], locationOnScreent[1], 0, 0);
+//                mDice1.setLayoutParams(lp);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
         return animSlide1;
     }
@@ -500,7 +587,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         boolean bPlayingField = false;
         String area;
-        if(layoutview == mPlayingfield){
+        if (layoutview == mPlayingfield) {
             bPlayingField = true;
             area = "Playing Field";
         } else {
@@ -514,9 +601,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mEnterCount = 0;
                 break;
             case DragEvent.ACTION_DRAG_ENTERED:
-                Log.d(TAG, "Drag event entered into "+area);
+                Log.d(TAG, "Drag event entered into " + area);
                 mEnterCount++;
-                if(mInitialDrag) {
+                if (mInitialDrag) {
                     mSrcView = area;
                     mInitialDrag = false;
                 } else {
@@ -524,7 +611,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
-                Log.d(TAG, "Drag event exited from "+area);
+                Log.d(TAG, "Drag event exited from " + area);
                 break;
             case DragEvent.ACTION_DROP:
                 Log.d(TAG, "Dropped");
@@ -534,7 +621,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 LinearLayout container = (LinearLayout) layoutview;
                 container.addView(view);
                 view.setVisibility(View.VISIBLE);
-                if(bPlayingField) {
+                if (bPlayingField) {
 //                    LinearLayout.LayoutParams layoutParams =
 //                            (LinearLayout.LayoutParams) view.getLayoutParams();
 //                    layoutParams.leftMargin = (int) dragevent.getX();
@@ -549,28 +636,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 // Sometime going from the bottom to the playing field
                 // it doesn't register leaving the bottom
-                if(mEnterCount == 1) {
+                if (mEnterCount == 1) {
                     // Since it only enters ACTION_DRAG_ENTERED once it only knows the
                     // srcView.  So that is actually the destView, use srcView as
                     // the destView.
-                    if(mSrcView.equalsIgnoreCase("Playing Field")) {
+                    if (mSrcView.equalsIgnoreCase("Playing Field")) {
+                        setDiceInPlay(true, view.getId());
                         mPlayingFieldCount++;
                         mBottomFieldCount--;
                     } else {
+                        setDiceInPlay(false, view.getId());
                         mBottomFieldCount++;
                         mPlayingFieldCount--;
                     }
-                    Toast.makeText(MainActivity.this, "Dest EC1: " + mDestView + ", PF: " + mPlayingFieldCount + ", BF: " + mBottomFieldCount, Toast.LENGTH_SHORT).show();
-                } else if(!mSrcView.equalsIgnoreCase(mDestView)) {
+                    Toast.makeText(MainActivity.this,
+                            "Dest EC1: " + mDestView + ", PF: " + mPlayingFieldCount + ", BF: "
+                                    + mBottomFieldCount, Toast.LENGTH_SHORT).show();
+                } else if (!mSrcView.equalsIgnoreCase(mDestView)) {
                     // Dragged to a different view
-                    if(mDestView.equalsIgnoreCase("Playing Field")) {
+                    if (mDestView.equalsIgnoreCase("Playing Field")) {
+                        setDiceInPlay(true, view.getId());
                         mPlayingFieldCount++;
                         mBottomFieldCount--;
                     } else {
+                        setDiceInPlay(false, view.getId());
                         mBottomFieldCount++;
                         mPlayingFieldCount--;
                     }
-                    Toast.makeText(MainActivity.this, "Dest: " + mDestView + ", PF: " + mPlayingFieldCount + ", BF: " + mBottomFieldCount, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,
+                            "Dest: " + mDestView + ", PF: " + mPlayingFieldCount + ", BF: "
+                                    + mBottomFieldCount, Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onDrag: " + mEnterCount);
                 }
                 mInitialDrag = true;
@@ -583,5 +678,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
         return true;
+    }
+
+    private void setDiceInPlay(boolean bInPlay, int diceId) {
+        switch (diceId) {
+            case R.id.dice_1_imageview:
+                mDiceOneInPlay = bInPlay;
+                break;
+            case R.id.dice_2_imageview:
+                mDiceTwoInPlay = bInPlay;
+                break;
+            case R.id.dice_3_imageview:
+                mDiceThreeInPlay = bInPlay;
+                break;
+            case R.id.dice_4_imageview:
+                mDiceFourInPlay = bInPlay;
+                break;
+            case R.id.dice_5_imageview:
+                mDiceFiveInPlay = bInPlay;
+                break;
+            case R.id.dice_6_imageview:
+                mDiceSixInPlay = bInPlay;
+                break;
+        }
     }
 }

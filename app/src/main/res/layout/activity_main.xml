@@ -10,10 +10,11 @@
 
     <LinearLayout
         android:id="@+id/playing_field_linearlayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@color/colorPrimaryDark"
-        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/bottom_field_linearlayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,8 +26,7 @@
             android:layout_height="50dp"
             android:background="#FFFFFF"
             android:contentDescription="@string/dice_one"
-            android:src="@drawable/dice_1"
-            app:layout_constraintEnd_toStartOf="@+id/dice_2_imageview"/>
+            android:src="@drawable/dice_1"/>
 
         <ImageView
             android:id="@+id/dice_2_imageview"
@@ -72,12 +72,15 @@
 
     <LinearLayout
         android:id="@+id/bottom_field_linearlayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@color/colorAccent"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playing_field_linearlayout">
 
     </LinearLayout>
 
