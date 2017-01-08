@@ -6,74 +6,101 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
     tools:context="rmatze.com.dicegame.MainActivity">
 
-    <ImageView
-        android:id="@+id/dice_1_imageview"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="#FFFFFF"
-        android:contentDescription="@string/dice_one"
-        android:src="@drawable/dice_1"
-        app:layout_constraintEnd_toStartOf="@+id/dice_2_imageview"
+    <LinearLayout
+        android:id="@+id/playing_field_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_field_linearlayout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/dice_2_imageview"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="#FFFFFF"
-        android:contentDescription="@string/dice_two"
-        android:src="@drawable/dice_2"
-        app:layout_constraintEnd_toStartOf="@+id/dice_3_imageview"
-        app:layout_constraintLeft_toRightOf="@+id/dice_1_imageview"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/dice_1_imageview"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            android:contentDescription="@string/dice_one"
+            android:src="@drawable/dice_1"
+            app:layout_constraintEnd_toStartOf="@+id/dice_2_imageview"/>
 
-    <ImageView
-        android:id="@+id/dice_3_imageview"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="#FFFFFF"
-        android:contentDescription="@string/dice_three"
-        android:src="@drawable/dice_3"
-        app:layout_constraintEnd_toStartOf="@+id/dice_4_imageview"
-        app:layout_constraintLeft_toRightOf="@+id/dice_2_imageview"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/dice_2_imageview"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            android:contentDescription="@string/dice_two"
+            android:src="@drawable/dice_2"/>
 
-    <ImageView
-        android:id="@+id/dice_4_imageview"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="#FFFFFF"
-        android:contentDescription="@string/dice_four"
-        android:src="@drawable/dice_4"
-        app:layout_constraintEnd_toStartOf="@+id/dice_5_imageview"
-        app:layout_constraintLeft_toRightOf="@+id/dice_3_imageview"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/dice_3_imageview"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            android:contentDescription="@string/dice_three"
+            android:src="@drawable/dice_3"/>
 
-    <ImageView
-        android:id="@+id/dice_5_imageview"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="#FFFFFF"
-        android:contentDescription="@string/dice_five"
-        android:src="@drawable/dice_5"
-        app:layout_constraintEnd_toStartOf="@+id/dice_6_imageview"
-        app:layout_constraintLeft_toRightOf="@+id/dice_4_imageview"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/dice_4_imageview"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            android:contentDescription="@string/dice_four"
+            android:src="@drawable/dice_4"/>
 
-    <ImageView
-        android:id="@+id/dice_6_imageview"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="#FFFFFF"
-        android:contentDescription="@string/dice_six"
-        android:src="@drawable/dice_6"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/dice_5_imageview"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/dice_5_imageview"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            android:contentDescription="@string/dice_five"
+            android:src="@drawable/dice_5"/>
+
+        <ImageView
+            android:id="@+id/dice_6_imageview"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            android:contentDescription="@string/dice_six"
+            android:src="@drawable/dice_6"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_field_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorAccent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    </LinearLayout>
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/location"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="150dp"-->
+    <!--android:text="location"-->
+    <!--android:textSize="20sp"/>-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/divider_line"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_marginBottom="60dp"-->
+    <!--android:layout_marginEnd="16dp"-->
+    <!--android:layout_marginStart="16dp"-->
+    <!--android:background="@color/colorPrimaryDark"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"/>-->
 
     <!--<TextView-->
     <!--android:id="@+id/total_hit_count_textview"-->

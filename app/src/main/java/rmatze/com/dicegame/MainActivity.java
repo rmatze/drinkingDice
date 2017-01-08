@@ -1,31 +1,39 @@
 package rmatze.com.dicegame;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Display;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
-        View.OnTouchListener {
+        View.OnTouchListener,View.OnDragListener {
+
+    String TAG = "RYAN";
 
     ConstraintLayout mWholeScreen;
     ImageView mDice1, mDice2, mDice3, mDice4, mDice5, mDice6;
 //    TextView mTotalHitCount, mStatus;
+//    TextView mLocation;
+
+    LinearLayout mPlayingfield, mBottomfield;
 
     public static int MIN = 1;
     public static int MAX = 6;
@@ -34,9 +42,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     boolean mHit = false;
     boolean mGameOver = false;
     boolean mGameReset = false;
+    boolean mInitialDrag = true;
+    String mSrcView, mDestView;
 
-    int mScreenWidth;
-    int mScreenHeight;
+    int mPlayingFieldCount = MAX;
+    int mBottomFieldCount = 0;
+    int mEnterCount;
+
+    int mScreenWidth, mScreenHeight, deltaX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +58,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mWholeScreen = (ConstraintLayout) findViewById(R.id.activity_main);
         mWholeScreen.setOnClickListener(this);
+        mPlayingfield = (LinearLayout) findViewById(R.id.playing_field_linearlayout);
+        mPlayingfield.setOnDragListener(this);
+        mBottomfield = (LinearLayout) findViewById(R.id.bottom_field_linearlayout);
+        mBottomfield.setOnDragListener(this);
 
         mDice1 = (ImageView) findViewById(R.id.dice_1_imageview);
         mDice1.setOnTouchListener(this);
@@ -61,12 +78,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //        mTotalHitCount = (TextView) findViewById(R.id.total_hit_count_textview);
 //        mStatus = (TextView) findViewById(R.id.status_textview);
+//        mLocation = (TextView) findViewById(R.id.location);
 
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getRealSize(size);
-        mScreenWidth = size.x;
-        mScreenHeight = size.y;
+//        Display display = getWindowManager().getDefaultDisplay();
+//        Point size = new Point();
+//        display.getRealSize(size);
+//        mScreenWidth = size.x;
+//        mScreenHeight = size.y;
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        mScreenWidth = metrics.widthPixels;
+        mScreenHeight = metrics.heightPixels;
+
+        deltaX = 0;
+
+
+//        mDice1.setOnDragListener(new View.OnDragListener() {
+//            @Override
+//            public boolean onDrag(View v, DragEvent event) {
+//                String msg = "Ryan";
+//                RelativeLayout.LayoutParams layoutParams = null;
+//                switch(event.getAction()) {
+//                    case DragEvent.ACTION_DRAG_STARTED:
+//                        layoutParams = (RelativeLayout.LayoutParams)v.getLayoutParams();
+//                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_STARTED");
+//
+//                        // Do nothing
+//                        break;
+//
+//                    case DragEvent.ACTION_DRAG_ENTERED:
+//                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENTERED");
+//                        int x_cord = (int) event.getX();
+//                        int y_cord = (int) event.getY() + 50;
+//                        break;
+//
+//                    case DragEvent.ACTION_DRAG_EXITED :
+//                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_EXITED");
+//                        x_cord = (int) event.getX();
+//                        y_cord = (int) event.getY() + 50;
+//                        layoutParams.leftMargin = x_cord;
+//                        layoutParams.topMargin = y_cord;
+//                        v.setLayoutParams(layoutParams);
+//                        break;
+//
+//                    case DragEvent.ACTION_DRAG_LOCATION  :
+//                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_LOCATION");
+//                        x_cord = (int) event.getX() + 50;
+//                        y_cord = (int) event.getY() + 50;
+//                        break;
+//
+//                    case DragEvent.ACTION_DRAG_ENDED   :
+//                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENDED");
+//
+//                        // Do nothing
+//                        break;
+//
+//                    case DragEvent.ACTION_DROP:
+//                        Log.d(msg, "ACTION_DROP event");
+//
+//                        // Do nothing
+//                        break;
+//                    default: break;
+//                }
+//                return true;
+//            }
+//        });
+
     }
 
     @Override
@@ -110,71 +187,104 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                }
 
 
-                mDice1.startAnimation(getDiceAnimation());
-                mDice2.startAnimation(getDiceAnimation());
-                mDice3.startAnimation(getDiceAnimation());
-                mDice4.startAnimation(getDiceAnimation());
-                mDice5.startAnimation(getDiceAnimation());
-                mDice6.startAnimation(getDiceAnimation());
+//                mDice1.startAnimation(getDiceAnimation());
+//                mDice2.startAnimation(getDiceAnimation());
+//                mDice3.startAnimation(getDiceAnimation());
+//                mDice4.startAnimation(getDiceAnimation());
+//                mDice5.startAnimation(getDiceAnimation());
+//                mDice6.startAnimation(getDiceAnimation());
 
                 break;
         }
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        ConstraintLayout.LayoutParams layoutParams;
-        ImageView imageView = null;
-        switch (v.getId()) {
-            case R.id.dice_1_imageview:
-                imageView = mDice1;
-                break;
-            case R.id.dice_2_imageview:
-                imageView = mDice2;
-                break;
-            case R.id.dice_3_imageview:
-                imageView = mDice3;
-                break;
-            case R.id.dice_4_imageview:
-                imageView = mDice4;
-                break;
-            case R.id.dice_5_imageview:
-                imageView = mDice5;
-                break;
-            case R.id.dice_6_imageview:
-                imageView = mDice6;
-                break;
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+            view.startDrag(null, shadowBuilder, view, 0);
+            view.setVisibility(View.INVISIBLE);
+            return true;
+        }
+        else {
+            return false;
         }
 
-        if (imageView != null) {
-            layoutParams =
-                    (ConstraintLayout.LayoutParams) imageView.getLayoutParams();
 
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    int x_cord = (int) event.getRawX();
-                    int y_cord = (int) event.getRawY();
 
-                    if (x_cord > mScreenWidth) {
-                        x_cord = mScreenWidth;
-                    }
-                    if (y_cord > mScreenHeight) {
-                        y_cord = mScreenHeight;
-                    }
 
-                    layoutParams.leftMargin = x_cord;// - 25;
-                    layoutParams.topMargin = y_cord;// - 75;
 
-                    imageView.setLayoutParams(layoutParams);
-                    break;
-                default:
-                    break;
-            }
-        }
 
-        return true;
+
+//        LinearLayout.LayoutParams layoutParams;
+//        ImageView imageView = null;
+//        switch (v.getId()) {
+//            case R.id.dice_1_imageview:
+//                imageView = mDice1;
+//                break;
+//            case R.id.dice_2_imageview:
+//                imageView = mDice2;
+//                break;
+//            case R.id.dice_3_imageview:
+//                imageView = mDice3;
+//                break;
+//            case R.id.dice_4_imageview:
+//                imageView = mDice4;
+//                break;
+//            case R.id.dice_5_imageview:
+//                imageView = mDice5;
+//                break;
+//            case R.id.dice_6_imageview:
+//                imageView = mDice6;
+//                break;
+//        }
+//
+//        if (imageView != null) {
+//            layoutParams =
+//                    (LinearLayout.LayoutParams) imageView.getLayoutParams();
+//
+//            switch (event.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                    break;
+//                case MotionEvent.ACTION_MOVE:
+//                    int x_cord = (int) event.getRawX();
+//                    int y_cord = (int) event.getRawY();
+////
+////                    if (x_cord + 100 > mScreenWidth) {
+////                        x_cord = mScreenWidth;
+////                    }
+////                    if (y_cord + 300 > mScreenHeight) {
+////                        y_cord = mScreenHeight;
+////                    }
+////
+////                    layoutParams.leftMargin = x_cord;// - 100;
+////                    layoutParams.topMargin = y_cord - 300;
+////
+////                    imageView.setLayoutParams(layoutParams);
+//                    if( x_cord + deltaX > mScreenWidth ){
+//
+//                        // this will ensure that target location
+//                        // is always <= windowHeight
+//                        deltaX = mScreenWidth - x_cord;
+//
+//                    } else if( x_cord + deltaX < 0){
+//
+//                        deltaX = -(x_cord);
+//
+//                    }
+//
+//                    imageView.setX(deltaX);
+//                    imageView.setTranslationX(deltaX);
+//
+//                    mLocation.setText("X: " + layoutParams.leftMargin + ", Y: " + layoutParams.topMargin + ", SW: " + mScreenWidth + ", SH: " + mScreenHeight);
+//
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//
+//        return true;
     }
 
     private void renderDice() {
@@ -383,5 +493,95 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private float getRandomFloat() {
         return new Random().nextFloat() * (0.85f - 0.3f) + 0.3f;
+    }
+
+    @Override
+    public boolean onDrag(View layoutview, DragEvent dragevent) {
+
+        boolean bPlayingField = false;
+        String area;
+        if(layoutview == mPlayingfield){
+            bPlayingField = true;
+            area = "Playing Field";
+        } else {
+            area = "Bottom Field";
+        }
+
+        int action = dragevent.getAction();
+        switch (action) {
+            case DragEvent.ACTION_DRAG_STARTED:
+                Log.d(TAG, "Drag event started");
+                mEnterCount = 0;
+                break;
+            case DragEvent.ACTION_DRAG_ENTERED:
+                Log.d(TAG, "Drag event entered into "+area);
+                mEnterCount++;
+                if(mInitialDrag) {
+                    mSrcView = area;
+                    mInitialDrag = false;
+                } else {
+                    mDestView = area;
+                }
+                break;
+            case DragEvent.ACTION_DRAG_EXITED:
+                Log.d(TAG, "Drag event exited from "+area);
+                break;
+            case DragEvent.ACTION_DROP:
+                Log.d(TAG, "Dropped");
+                View view = (View) dragevent.getLocalState();
+                ViewGroup owner = (ViewGroup) view.getParent();
+                owner.removeView(view);
+                LinearLayout container = (LinearLayout) layoutview;
+                container.addView(view);
+                view.setVisibility(View.VISIBLE);
+                if(bPlayingField) {
+//                    LinearLayout.LayoutParams layoutParams =
+//                            (LinearLayout.LayoutParams) view.getLayoutParams();
+//                    layoutParams.leftMargin = (int) dragevent.getX();
+//                    layoutParams.topMargin = (int) dragevent.getY();
+//                    view.setLayoutParams(layoutParams);
+                } else {
+//                    LinearLayout.LayoutParams layoutParams =
+//                            (LinearLayout.LayoutParams) view.getLayoutParams();
+//                    layoutParams.leftMargin = (int) dragevent.getX();
+//                    layoutParams.topMargin = (int) dragevent.getY();
+//                    view.setLayoutParams(layoutParams);
+                }
+                // Sometime going from the bottom to the playing field
+                // it doesn't register leaving the bottom
+                if(mEnterCount == 1) {
+                    // Since it only enters ACTION_DRAG_ENTERED once it only knows the
+                    // srcView.  So that is actually the destView, use srcView as
+                    // the destView.
+                    if(mSrcView.equalsIgnoreCase("Playing Field")) {
+                        mPlayingFieldCount++;
+                        mBottomFieldCount--;
+                    } else {
+                        mBottomFieldCount++;
+                        mPlayingFieldCount--;
+                    }
+                    Toast.makeText(MainActivity.this, "Dest EC1: " + mDestView + ", PF: " + mPlayingFieldCount + ", BF: " + mBottomFieldCount, Toast.LENGTH_SHORT).show();
+                } else if(!mSrcView.equalsIgnoreCase(mDestView)) {
+                    // Dragged to a different view
+                    if(mDestView.equalsIgnoreCase("Playing Field")) {
+                        mPlayingFieldCount++;
+                        mBottomFieldCount--;
+                    } else {
+                        mBottomFieldCount++;
+                        mPlayingFieldCount--;
+                    }
+                    Toast.makeText(MainActivity.this, "Dest: " + mDestView + ", PF: " + mPlayingFieldCount + ", BF: " + mBottomFieldCount, Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onDrag: " + mEnterCount);
+                }
+                mInitialDrag = true;
+                mEnterCount = 0;
+                break;
+            case DragEvent.ACTION_DRAG_ENDED:
+                Log.d(TAG, "Drag ended *************************************");
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }
